@@ -18,6 +18,10 @@ public class CardLogicService {
     public List<Card> getCards() {
         return cardDAO.getCards();
     }
+
+    public Card create(Card input) {
+        return cardDAO.create(input);
+    }
     // this stores all the logic for the cards
 
 }

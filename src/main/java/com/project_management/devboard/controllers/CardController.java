@@ -2,8 +2,9 @@ package com.project_management.devboard.controllers;
 
 import com.project_management.devboard.models.Card;
 import com.project_management.devboard.services.CardLogicService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,9 +21,17 @@ public class CardController {
 
     // get cards, get card by id, replace card, update card, delete card
 
+    @PostMapping(value = "")
+    public Card createCard(@RequestBody Card input) {
+        return cardLogicService.create(input);
+    }
+
+    @GetMapping("")
     public List<Card> getCards() {
         return cardLogicService.getCards();
     }
+
+
 
 
 
