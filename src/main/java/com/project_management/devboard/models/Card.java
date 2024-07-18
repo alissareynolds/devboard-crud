@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data // Lombok @Data adds getters, setters, hashCode, equals, toString()
 @AllArgsConstructor // adds a constructor with all fields
 @NoArgsConstructor // empty constructor
@@ -33,6 +35,6 @@ public class Card {
     @Column(name = "story_points")
     private Integer storyPoints;
     // private User assigned;
-    // private Card children;
-    // private List<Card> children;
+    private Card parent;
+    private List<Card> children;
 }
