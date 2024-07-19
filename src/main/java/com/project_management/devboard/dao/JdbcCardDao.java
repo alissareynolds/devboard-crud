@@ -3,10 +3,13 @@ package com.project_management.devboard.dao;
 import com.project_management.devboard.models.Card;
 import com.project_management.devboard.models.CardState;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,8 +26,19 @@ public class JdbcCardDao implements CardDAO {
 
     @Override
     public Card create(Card input) {
-        String sqlQuery = "INSERT INTO cards (name, description, state, story_points, acceptance_criteria) VALUES (?, ?, ?, ?, ?) RETURNING id;";
-        int id = jdbcTemplate.queryForObject(sqlQuery, int.class, input.getName(), input.getDescription(), input.getState(), input.getStoryPoints(), input.getAcceptanceCriteria());
+        GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+        String sql = "INSERT INTO cards (name, description, state, story_points, acceptance_criteria) VALUES (?, ?, ?, ?, ?);";
+
+        jdbcTemplate.update(conn -> {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, input.getName());
+            preparedStatement.setString(2, input.getDescription());
+            preparedStatement.setString(3, input.getState() != null ? input.getState().name() : null);
+            preparedStatement.setInt(4, input.getStoryPoints());
+            preparedStatement.setString(5, input.getAcceptanceCriteria());
+            return preparedStatement;
+        }, generatedKeyHolder);
+        Integer id = generatedKeyHolder.getKey().intValue();
         return getCardById(id).get();
     }
 

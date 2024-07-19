@@ -35,6 +35,6 @@ public class Card {
     @Column(name = "story_points")
     private Integer storyPoints;
     // private User assigned;
-    private Card parent;
-    private List<Card> children;
+    private MiniCard parent;
+    private List<MiniCard> children;
 }
