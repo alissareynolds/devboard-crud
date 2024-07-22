@@ -18,7 +18,7 @@ import java.util.Optional;
 @Component // we want this class to automatically load up without having to call a constructor to use in other classes
 public class JdbcCardDao implements CardDAO {
 
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     public JdbcCardDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
