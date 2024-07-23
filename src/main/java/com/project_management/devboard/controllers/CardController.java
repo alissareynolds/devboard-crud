@@ -14,12 +14,11 @@ import java.util.List;
 @RequestMapping("/api/cards")
 public class CardController {
 
-    CardLogicService cardLogicService;
+    private CardLogicService cardLogicService;
 
     public CardController(CardLogicService cardLogicService) {
         this.cardLogicService = cardLogicService;
     }
-
 
     @PostMapping
     public Card createCard(@RequestBody Card input) {
